@@ -5,7 +5,7 @@ A collection of Python scripts to analyze Python code and generate class diagram
 <h2>Usage</h2>
 Run the script to analyze a Python file and generate a .puml file:
 
-`python src/analyzer.py examples/example1.py`
+`python analyzer.py example.py`
 <h1>Example</h1>
 <p>Example Python Code :</p>
 
