@@ -1,29 +1,36 @@
-class Animals:
-    def __init__(self, name):
-        self.name = name
+import os
+import subprocess
+import sys
 
-    def speak(self):
-        pass
+def generate_uml_with_pyreverse(file_path, output_format="puml", project_name="GeneratedDiagram"):
+    """
+    Generate UML diagrams using pyreverse and save them in the specified format.
+    """
+    if not os.path.exists(file_path):
+        print(f"Error: File or directory {file_path} does not exist.")
+        sys.exit(1)
 
-class Dog(Animals):
-    def __init__(self, name, breed):
-        super().__init__(name)
-        self.breed = breed
+    try:
+        # Run the pyreverse command
+        subprocess.run(
+            ["pyreverse", "-o", output_format, "-p", project_name, file_path],
+            check=True
+        )
+        print(f"UML diagram saved as {project_name}.{output_format}")
+      #  if output_format == "puml":
+          
+        # else:
+        #     print(f"UML diagrams generated: classes.{output_format}, packages.{output_format}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error: pyreverse command failed. {e}")
 
-    def speak(self):
-        return "Woof!"
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <python_file_or_directory>")
+        sys.exit(1)
 
-class Cat(Animals):
-    def __init__(self, name, color):
-        super().__init__(name)
-        self.color = color
+    file_path = sys.argv[1]
+    generate_uml_with_pyreverse(file_path)
 
-    def speak(self):
-        return "Meow!"
-
-class Owner:
-    def __init__(self, owner_name):
-        self.owner_name = owner_name
-
-    def owns(self, pet: Animals):
-        print(f"{self.owner_name} owns a pet named {pet.name}.")
+if __name__ == "__main__":
+    main()
